@@ -186,9 +186,102 @@
     .stage { display: none; }
     .desktop-blocker { display: flex; }
   }
+  /* ---------- PIN gate ---------- */
+  #pin-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: #1a1d24;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  #pin-gate.hidden { display: none; }
+
+  .pin-card {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    color: #f0dcae;
+  }
+
+  .pin-card .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .pin-card h1 {
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    margin: 0 0 28px;
+    background: linear-gradient(180deg, #fff3d0 0%, #e0ac52 45%, #a87730 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .pin-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .pin-boxes input {
+    width: 52px;
+    height: 62px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff3d0;
+    background: linear-gradient(160deg, #22262f 0%, #1a1d24 60%, #15171d 100%);
+    border: 2px solid #b9863a;
+    border-radius: 6px;
+    outline: none;
+    caret-color: #d8a94e;
+  }
+
+  .pin-boxes input:focus {
+    border-color: #f0cf85;
+    box-shadow: 0 0 10px rgba(224, 172, 82, 0.45);
+  }
+
+  .pin-card .error {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: #d97757;
+    min-height: 18px;
+    margin-bottom: 6px;
+  }
+
+  .pin-shake { animation: pinShake 0.35s; }
+  @keyframes pinShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
 </style>
 </head>
 <body>
+
+  <div id="pin-gate">
+    <div class="pin-card">
+      <div class="eyebrow">VÂNIA &amp; HUGO</div>
+      <h1>INSIRA O CÓDIGO DO CONVITE</h1>
+      <div class="pin-boxes">
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+      </div>
+      <div class="error" id="pin-error"></div>
+    </div>
+  </div>
 
   <div class="stage">
     <div class="buttons-overlay">
@@ -219,6 +312,55 @@
       Por favor, abra este link no seu smartphone.
     </div>
   </div>
+  <script>
+    (function () {
+      var CORRECT_PIN = "0427";
+      var gate = document.getElementById('pin-gate');
+      var inputs = Array.prototype.slice.call(document.querySelectorAll('.pin-boxes input'));
+      var errorEl = document.getElementById('pin-error');
+      var card = document.querySelector('.pin-card');
+
+      // already unlocked this session
+      if (sessionStorage.getItem('vh_unlocked') === 'yes') {
+        gate.classList.add('hidden');
+        return;
+      }
+
+      inputs[0].focus();
+
+      inputs.forEach(function (input, i) {
+        input.addEventListener('input', function () {
+          input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+          if (input.value && i < inputs.length - 1) {
+            inputs[i + 1].focus();
+          }
+          if (inputs.every(function (inp) { return inp.value.length === 1; })) {
+            checkPin();
+          }
+        });
+
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && !input.value && i > 0) {
+            inputs[i - 1].focus();
+          }
+        });
+      });
+
+      function checkPin() {
+        var entered = inputs.map(function (inp) { return inp.value; }).join('');
+        if (entered === CORRECT_PIN) {
+          sessionStorage.setItem('vh_unlocked', 'yes');
+          gate.classList.add('hidden');
+        } else {
+          errorEl.textContent = 'Código incorreto. Tente novamente.';
+          card.classList.add('pin-shake');
+          setTimeout(function () { card.classList.remove('pin-shake'); }, 350);
+          inputs.forEach(function (inp) { inp.value = ''; });
+          inputs[0].focus();
+        }
+      }
+    })();
+  </script>
 
 </body>
 </html>
