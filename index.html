@@ -291,7 +291,7 @@
           <span class="corner bl"></span><span class="corner br"></span>
           <span class="label">CERIMÓNIA RELIGIOSA</span>
         </a>
-        <div class="subtitle">10h30 · Santuário de Santa Luzia</div>
+        <div class="subtitle" data-b64="MTBoMzAgwrcgU2FudHXDoXJpbyBkZSBTYW50YSBMdXppYQ=="></div>
       </div>
 
       <div class="btn-group">
@@ -300,7 +300,7 @@
           <span class="corner bl"></span><span class="corner br"></span>
           <span class="label">FESTA</span>
         </a>
-        <div class="subtitle">Quinta da Pia</div>
+        <div class="subtitle" data-b64="UXVpbnRhIGRhIFBpYQ=="></div>
       </div>
     </div>
   </div>
@@ -312,6 +312,12 @@
       Por favor, abra este link no seu smartphone.
     </div>
   </div>
+  <script>
+    document.querySelectorAll('[data-b64]').forEach(function (el) {
+      el.textContent = decodeURIComponent(escape(atob(el.getAttribute('data-b64'))));
+    });
+  </script>
+
   <script>
     (function () {
       var CORRECT_PIN_HASH = "22a281f05f80c9ad0fff258da48daf0dbffa0ae6fc7bb892935d42d97c430448";
