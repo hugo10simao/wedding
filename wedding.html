@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Vânia &amp; Hugo — 4 Setembro 2027</title>
+<meta name="robots" content="noindex, nofollow" />
+<meta property="og:title" content="Vânia &amp; Hugo — O Nosso Dia" />
+<meta property="og:description" content="4 de Setembro de 2027" />
+<meta property="og:image" content="https://hugo10simao.github.io/wedding/bg.png" />
+<meta property="og:type" content="website" />
+<link rel="icon" type="image/png" href="favicon.ico" />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap');
+
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #1a1d24;
+    font-family: 'Cinzel', serif;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ---------- mobile stage: locked to the background image's aspect ratio ---------- */
+  .stage {
+    position: relative;
+    height: 100dvh;
+    width: calc(100dvh * 560 / 1003);
+    max-width: 100vw;
+    max-height: calc(100vw * 1003 / 560);
+    background-image: url("bg.png");
+    background-size: cover;
+    background-position: center;
+    container-type: inline-size;
+    container-name: stage;
+  }
+
+  /* overlay region matching the empty panel in the artwork (~43%–80% of height) */
+  .buttons-overlay {
+    position: absolute;
+    top: 37%;
+    bottom: 25%;
+    left: 14%;
+    right: 14%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4cqw;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 2.5cqw;
+  }
+
+  .deco-btn {
+    position: relative;
+    width: 100%;
+    padding: 5cqw 0;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: linear-gradient(160deg, #22262f 0%, #1a1d24 60%, #15171d 100%);
+    background-clip: padding-box;
+    cursor: pointer;
+    isolation: isolate;
+    text-decoration: none;
+    color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    transition: transform 0.12s ease;
+  }
+
+  .deco-btn::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 8px;
+    padding: 2px;
+    background: linear-gradient(135deg, #f7dfa5, #b9863a 30%, #fdf0c8 55%, #a87730 80%, #f0cf85);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    transition: filter 0.15s ease;
+  }
+
+  .deco-btn::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(240, 207, 133, 0.55);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .deco-btn .label {
+    position: relative;
+    z-index: 1;
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 3cqw;
+    letter-spacing: 0.12em;
+    line-height: 1.3;
+    white-space: normal;
+    text-align: center;
+    background: linear-gradient(180deg, #fff3d0 0%, #e0ac52 45%, #a87730 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 6px rgba(224, 172, 82, 0.35));
+  }
+
+  .deco-btn .corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #d8a94e;
+    opacity: 0.9;
+    z-index: 1;
+  }
+  .deco-btn .corner.tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+  .deco-btn .corner.tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
+  .deco-btn .corner.bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
+  .deco-btn .corner.br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+  .deco-btn:active { transform: translateY(1px) scale(0.98); }
+  .deco-btn:active::before { filter: brightness(1.3); }
+  .deco-btn:active .label { filter: drop-shadow(0 0 10px rgba(240, 207, 133, 0.65)); }
+
+  .subtitle {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    font-size: 2.6cqw;
+    letter-spacing: 0.12em;
+    color: #4a3018;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* ---------- desktop / too-wide block screen ---------- */
+  .desktop-blocker {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    background: #efdbb0;
+    color: #4a3018;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+
+  .desktop-blocker .msg {
+    max-width: 420px;
+  }
+
+  .desktop-blocker .icon {
+    font-size: 44px;
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  @media (min-width: 701px) {
+    .stage { display: none; }
+    .desktop-blocker { display: flex; }
+  }
+  /* ---------- PIN gate ---------- */
+  #pin-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: #efdbb0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  #pin-gate.hidden { display: none; }
+
+  .pin-card {
+    width: 100%;
+    max-width: 320px;
+    text-align: center;
+    color: #4a3018;
+  }
+
+  .pin-card .eyebrow {
+    font-size: 12px;
+    letter-spacing: 0.3em;
+    opacity: 0.7;
+    margin-bottom: 6px;
+  }
+
+  .pin-card h1 {
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    margin: 0 0 28px;
+    background: linear-gradient(180deg, #8a5a24 0%, #6b4118 50%, #4a2f10 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .pin-boxes {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 22px;
+  }
+
+  .pin-boxes input {
+    width: 52px;
+    height: 62px;
+    text-align: center;
+    font-family: 'Cinzel', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff3d0;
+    background: linear-gradient(160deg, #22262f 0%, #1a1d24 60%, #15171d 100%);
+    border: 2px solid #b9863a;
+    border-radius: 6px;
+    outline: none;
+    caret-color: #d8a94e;
+  }
+
+  .pin-boxes input:focus {
+    border-color: #f0cf85;
+    box-shadow: 0 0 10px rgba(224, 172, 82, 0.45);
+  }
+
+  .pin-card .error {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: #d97757;
+    min-height: 18px;
+    margin-bottom: 6px;
+  }
+
+  .pin-shake { animation: pinShake 0.35s; }
+  @keyframes pinShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+  }
+</style>
+</head>
+<body>
+
+  <div id="pin-gate">
+    <div class="pin-card">
+      <div class="eyebrow">VÂNIA &amp; HUGO</div>
+      <h1>INSIRA O CÓDIGO DO CONVITE</h1>
+      <div class="pin-boxes">
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+        <input type="tel" inputmode="numeric" maxlength="1" autocomplete="off" />
+      </div>
+      <div class="error" id="pin-error"></div>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="buttons-overlay">
+      <div class="btn-group">
+        <a class="deco-btn" href="https://www.google.com/maps/search/?api=1&query=41.7014787,-8.8351512" target="_blank" rel="noopener">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="label">CERIMÓNIA RELIGIOSA</span>
+        </a>
+        <div class="subtitle" data-b64="MTBoMzAgwrcgU2FudHXDoXJpbyBkZSBTYW50YSBMdXppYQ=="></div>
+      </div>
+
+      <div class="btn-group">
+        <a class="deco-btn" href="https://www.google.com/maps/search/?api=1&query=41.586845,-8.633516" target="_blank" rel="noopener">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="label">FESTA</span>
+        </a>
+        <div class="subtitle" data-b64="UXVpbnRhIGRhIFBpYQ=="></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="desktop-blocker">
+    <div class="msg">
+      <span class="icon">📱</span>
+      Este convite foi feito para ser visto no telemóvel.<br>
+      Por favor, abra este link no seu smartphone.
+    </div>
+  </div>
+  <script>
+    document.querySelectorAll('[data-b64]').forEach(function (el) {
+      el.textContent = decodeURIComponent(escape(atob(el.getAttribute('data-b64'))));
+    });
+  </script>
+
+  <script>
+    (function () {
+      var CORRECT_PIN_HASH = "22a281f05f80c9ad0fff258da48daf0dbffa0ae6fc7bb892935d42d97c430448";
+
+      function sha256(text) {
+        var data = new TextEncoder().encode(text);
+        return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+          return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+            return b.toString(16).padStart(2, '0');
+          }).join('');
+        });
+      }
+      var gate = document.getElementById('pin-gate');
+      var inputs = Array.prototype.slice.call(document.querySelectorAll('.pin-boxes input'));
+      var errorEl = document.getElementById('pin-error');
+      var card = document.querySelector('.pin-card');
+
+      // already unlocked this session
+      if (sessionStorage.getItem('vh_unlocked') === 'yes') {
+        gate.classList.add('hidden');
+        return;
+      }
+
+      inputs[0].focus();
+
+      inputs.forEach(function (input, i) {
+        input.addEventListener('input', function () {
+          input.value = input.value.replace(/[^0-9]/g, '').slice(0, 1);
+          if (input.value && i < inputs.length - 1) {
+            inputs[i + 1].focus();
+          }
+          if (inputs.every(function (inp) { return inp.value.length === 1; })) {
+            checkPin();
+          }
+        });
+
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Backspace' && !input.value && i > 0) {
+            inputs[i - 1].focus();
+          }
+        });
+      });
+
+      function checkPin() {
+        var entered = inputs.map(function (inp) { return inp.value; }).join('');
+        sha256(entered).then(function (hash) {
+          if (hash === CORRECT_PIN_HASH) {
+            sessionStorage.setItem('vh_unlocked', 'yes');
+            gate.classList.add('hidden');
+          } else {
+            errorEl.textContent = 'Código incorreto. Tente novamente.';
+            card.classList.add('pin-shake');
+            setTimeout(function () { card.classList.remove('pin-shake'); }, 350);
+            inputs.forEach(function (inp) { inp.value = ''; });
+            inputs[0].focus();
+          }
+        });
+      }
+    })();
+  </script>
+
+</body>
+</html>
