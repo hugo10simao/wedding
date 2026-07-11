@@ -314,7 +314,16 @@
   </div>
   <script>
     (function () {
-      var CORRECT_PIN = "0409";
+      var CORRECT_PIN_HASH = "22a281f05f80c9ad0fff258da48daf0dbffa0ae6fc7bb892935d42d97c430448";
+
+      function sha256(text) {
+        var data = new TextEncoder().encode(text);
+        return crypto.subtle.digest('SHA-256', data).then(function (buf) {
+          return Array.prototype.map.call(new Uint8Array(buf), function (b) {
+            return b.toString(16).padStart(2, '0');
+          }).join('');
+        });
+      }
       var gate = document.getElementById('pin-gate');
       var inputs = Array.prototype.slice.call(document.querySelectorAll('.pin-boxes input'));
       var errorEl = document.getElementById('pin-error');
@@ -348,16 +357,18 @@
 
       function checkPin() {
         var entered = inputs.map(function (inp) { return inp.value; }).join('');
-        if (entered === CORRECT_PIN) {
-          sessionStorage.setItem('vh_unlocked', 'yes');
-          gate.classList.add('hidden');
-        } else {
-          errorEl.textContent = 'Código incorreto. Tente novamente.';
-          card.classList.add('pin-shake');
-          setTimeout(function () { card.classList.remove('pin-shake'); }, 350);
-          inputs.forEach(function (inp) { inp.value = ''; });
-          inputs[0].focus();
-        }
+        sha256(entered).then(function (hash) {
+          if (hash === CORRECT_PIN_HASH) {
+            sessionStorage.setItem('vh_unlocked', 'yes');
+            gate.classList.add('hidden');
+          } else {
+            errorEl.textContent = 'Código incorreto. Tente novamente.';
+            card.classList.add('pin-shake');
+            setTimeout(function () { card.classList.remove('pin-shake'); }, 350);
+            inputs.forEach(function (inp) { inp.value = ''; });
+            inputs[0].focus();
+          }
+        });
       }
     })();
   </script>
