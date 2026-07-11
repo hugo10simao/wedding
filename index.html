@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Vânia &amp; Hugo</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&display=swap');
+
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #1a1d24;
+    font-family: 'Cinzel', serif;
+    overscroll-behavior: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  /* ---------- mobile stage: locked to the background image's aspect ratio ---------- */
+  .stage {
+    position: relative;
+    height: 100dvh;
+    width: calc(100dvh * 560 / 1003);
+    max-width: 100vw;
+    max-height: calc(100vw * 1003 / 560);
+    background-image: url("img/bg.png");
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* overlay region matching the empty panel in the artwork (~43%–80% of height) */
+  .buttons-overlay {
+    position: absolute;
+    top: 37%;
+    bottom: 25%;
+    left: 14%;
+    right: 14%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4%;
+  }
+
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 2.5vw;
+  }
+
+  .deco-btn {
+    position: relative;
+    width: 100%;
+    padding: 5vw 0;
+    border: 2px solid transparent;
+    border-radius: 6px;
+    background: linear-gradient(160deg, #22262f 0%, #1a1d24 60%, #15171d 100%);
+    background-clip: padding-box;
+    cursor: pointer;
+    isolation: isolate;
+    text-decoration: none;
+    color: transparent;
+    -webkit-user-select: none;
+    user-select: none;
+    touch-action: manipulation;
+    transition: transform 0.12s ease;
+  }
+
+  .deco-btn::before {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 8px;
+    padding: 2px;
+    background: linear-gradient(135deg, #f7dfa5, #b9863a 30%, #fdf0c8 55%, #a87730 80%, #f0cf85);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    z-index: -1;
+    transition: filter 0.15s ease;
+  }
+
+  .deco-btn::after {
+    content: "";
+    position: absolute;
+    inset: 6px;
+    border: 1px solid rgba(240, 207, 133, 0.55);
+    border-radius: 3px;
+    pointer-events: none;
+  }
+
+  .deco-btn .label {
+    position: relative;
+    z-index: 1;
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-weight: 700;
+    font-size: 4.2vw;
+    letter-spacing: 0.28em;
+    text-align: center;
+    background: linear-gradient(180deg, #fff3d0 0%, #e0ac52 45%, #a87730 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 6px rgba(224, 172, 82, 0.35));
+  }
+
+  .deco-btn .corner {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border: 2px solid #d8a94e;
+    opacity: 0.9;
+    z-index: 1;
+  }
+  .deco-btn .corner.tl { top: 6px; left: 6px; border-right: none; border-bottom: none; }
+  .deco-btn .corner.tr { top: 6px; right: 6px; border-left: none; border-bottom: none; }
+  .deco-btn .corner.bl { bottom: 6px; left: 6px; border-right: none; border-top: none; }
+  .deco-btn .corner.br { bottom: 6px; right: 6px; border-left: none; border-top: none; }
+
+  .deco-btn:active { transform: translateY(1px) scale(0.98); }
+  .deco-btn:active::before { filter: brightness(1.3); }
+  .deco-btn:active .label { filter: drop-shadow(0 0 10px rgba(240, 207, 133, 0.65)); }
+
+  .subtitle {
+    font-family: 'Cinzel', Georgia, serif;
+    font-weight: 600;
+    font-size: 2.6vw;
+    letter-spacing: 0.12em;
+    color: #f0dcae;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  /* ---------- desktop / too-wide block screen ---------- */
+  .desktop-blocker {
+    display: none;
+    height: 100vh;
+    width: 100vw;
+    background: #1a1d24;
+    color: #f0dcae;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px;
+    font-family: 'Cinzel', serif;
+    letter-spacing: 0.08em;
+    line-height: 1.8;
+  }
+
+  .desktop-blocker .msg {
+    max-width: 420px;
+  }
+
+  .desktop-blocker .icon {
+    font-size: 44px;
+    display: block;
+    margin-bottom: 18px;
+  }
+
+  @media (min-width: 701px) {
+    .stage { display: none; }
+    .desktop-blocker { display: flex; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="stage">
+    <div class="buttons-overlay">
+      <div class="btn-group">
+        <a class="deco-btn" href="#">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="label">IGREJA</span>
+        </a>
+        <div class="subtitle">10h30 · Santuário de Santa Luzia</div>
+      </div>
+
+      <div class="btn-group">
+        <a class="deco-btn" href="#">
+          <span class="corner tl"></span><span class="corner tr"></span>
+          <span class="corner bl"></span><span class="corner br"></span>
+          <span class="label">QUINTA</span>
+        </a>
+        <div class="subtitle">Quinta da Pia</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="desktop-blocker">
+    <div class="msg">
+      <span class="icon">📱</span>
+      Este convite foi feito para ser visto no telemóvel.<br>
+      Por favor, abra este link no seu smartphone.
+    </div>
+  </div>
+
+</body>
+</html>
