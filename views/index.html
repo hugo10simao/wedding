@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="panel">
+        <h1>Generate a QR code</h1>
+        <p>Create a landing page with a background photo and two Google Maps buttons.</p>
+
+        <form action="/generate" method="POST" class="form-card">
+          <label>
+            Background image URL
+            <input type="text" name="background" value="{{background}}" />
+          </label>
+
+          <label>
+            Button 1 label
+            <input type="text" name="btn1Label" value="{{btn1Label}}" />
+          </label>
+
+          <label>
+            Button 1 Google Maps URL
+            <input type="url" name="btn1Url" value="{{btn1Url}}" />
+          </label>
+
+          <label>
+            Button 2 label
+            <input type="text" name="btn2Label" value="{{btn2Label}}" />
+          </label>
+
+          <label>
+            Button 2 Google Maps URL
+            <input type="url" name="btn2Url" value="{{btn2Url}}" />
+          </label>
+
+          <button type="submit">Generate QR code</button>
+        </form>
+      </section>
+
+      <section class="panel result-panel">
+        <h2>Your QR code</h2>
+        <div class="qr-box">{{qrImage}}</div>
+        {{landingUrl}}
+      </section>
+    </main>
+  </body>
+</html>
