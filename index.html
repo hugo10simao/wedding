@@ -35,7 +35,6 @@
     overflow: hidden;
   }
 
-  /* ---------- mobile stage: locked to the background image's aspect ratio ---------- */
   .stage {
     position: relative;
     height: 100dvh;
@@ -49,7 +48,6 @@
     container-name: stage;
   }
 
-  /* overlay region matching the empty panel in the artwork (~43%–80% of height) */
   .buttons-overlay {
     position: absolute;
     top: 37%;
@@ -157,7 +155,6 @@
     text-transform: uppercase;
   }
 
-  /* ---------- desktop / too-wide block screen ---------- */
   .desktop-blocker {
     display: none;
     height: 100vh;
@@ -187,7 +184,6 @@
     .stage { display: none; }
     .desktop-blocker { display: flex; }
   }
-  /* ---------- PIN gate ---------- */
   #pin-gate {
     position: fixed;
     inset: 0;
@@ -336,7 +332,6 @@
       var errorEl = document.getElementById('pin-error');
       var card = document.querySelector('.pin-card');
 
-      // already unlocked this session
       if (sessionStorage.getItem('vh_unlocked') === 'yes') {
         gate.classList.add('hidden');
         return;
