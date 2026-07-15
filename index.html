@@ -364,7 +364,7 @@
             sessionStorage.setItem('vh_unlocked', 'yes');
             gate.classList.add('hidden');
           } else {
-            errorEl.textContent = 'PIN incorreto. Verifique no convite.';
+            errorEl.textContent = 'Código incorreto. Verifique no convite.';
             card.classList.add('pin-shake');
             setTimeout(function () { card.classList.remove('pin-shake'); }, 350);
             inputs.forEach(function (inp) { inp.value = ''; });
